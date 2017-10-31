@@ -1,3 +1,3 @@
 # Tourism-Thailand
 Tourism in Thailand Analyze
-https://jusmistic.github.io/Tourism-Thailand/
+https://phongsathron.github.io/Tourism-Thailand/
