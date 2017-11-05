@@ -16,7 +16,7 @@ def downloads(links, year):
     text = "test"
     for item in range(len(links)-1):
         url = "http://www.tourism.go.th"+links[item]
-        pathlib.Path(year).mkdir(parents=True, exist_ok=True)
+        pathlib.Path("dataset/"year).mkdir(parents=True, exist_ok=True)
         download = requests.get(url).content
         path = year+"/"+str(item)+".xls"
         with open(path, "wb") as datafile:
