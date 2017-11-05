@@ -13,12 +13,13 @@ def find_link_intable(url):
     return links
 def downloads(links, year):
     """ download file from link in links """
-    text = "test"
+    months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
     for item in range(len(links)-1):
         url = "http://www.tourism.go.th"+links[item]
-        pathlib.Path("dataset/"+year).mkdir(parents=True, exist_ok=True)
+        pathlib.Path(year).mkdir(parents=True, exist_ok=True)
         download = requests.get(url).content
-        path = year+"/"+str(item)+".xls"
+        path = year+"/"+months[item]+".xls"
+        print(path)
         with open(path, "wb") as datafile:
             datafile.write(download)
     
