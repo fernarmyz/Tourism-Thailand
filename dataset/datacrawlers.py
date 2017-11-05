@@ -1,6 +1,7 @@
 """ data crawlers program use to crawlers dataset from tourism.go.th """
 import requests
 from bs4 import BeautifulSoup as bs
+import pathlib
 def find_link_intable(url):
     """ Find link of dataset for download """
     links = []
@@ -10,9 +11,21 @@ def find_link_intable(url):
     for item in file_table.find_all('a'):
         links.append(item['href'])
     return links
+def downloads(links, year):
+    """ download file from link in links """
+    text = "test"
+    for item in range(len(links)-1):
+        url = "http://www.tourism.go.th"+links[item]
+        pathlib.Path(year).mkdir(parents=True, exist_ok=True)
+        download = requests.get(url).content
+        path = year+"/"+str(item)+".xls"
+        with open(path, "wb") as datafile:
+            datafile.write(download)
+    
 def main():
     """ main function """
     url = "http://www.tourism.go.th/view/1/สถิตินักท่องเที่ยวชาวต่างชาติที่เดินทางเข้าประเทศไทย%20ปี%202559/TH-TH"
     links = find_link_intable(url)
-    print(links)
+    downloads(links, "2559")
+
 main()
