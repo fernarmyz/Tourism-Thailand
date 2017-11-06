@@ -4,7 +4,7 @@ from pandas import ExcelFile
 import pygal
 
 
-file_loc = "dataset/eathasia.xlsx"
+file_loc = "dataset/eastasia_cleaned.xlsx"
 df = pd.read_excel(file_loc)
 lst_year = df.ix[0].index.values[1:].tolist()
 country = df['Country']
