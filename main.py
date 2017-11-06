@@ -15,6 +15,7 @@ def plotgraph(filename):
     lst_year = dataframe.ix[0].index.values[1:].tolist()
     country = dataframe['Country']
 
+    print(dataframe[2550])
     bar_chart = pygal.Line()
     bar_chart.title = filename[8].upper() + filename[9:-13]
     bar_chart.x_labels = map(str, lst_year)
