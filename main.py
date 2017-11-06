@@ -27,20 +27,17 @@ def main():
     """
         main function
     """
-    files = [filename.strip("\n") for filename in open("dataset/file.txt")]
-    list_x = []
-    list_get_lst_of_sum = []  #เก็บlistผลรวมจำนวนคนในแต่ละทวีป โดยในlist จะมี list ย่อย 10 list คือ ปี 2550 - 2559 และในแต่ละ list ย่อยมี 7 index คือทวีป
-    list_sum = []
-    list_of_number_and_lanmass = []
-    list_country = ['africa', 'america', 'east asia', 'europe', 'middle east', 'oceania', 'south asia']
-    number_to_plotgraph_function_for_add_years = 1  # send to plotgraph function to +1 year
-    count = 0 # count if count == 7 it means 7 ทวีป  change year example: year 2554 and count % 7 == 0  >>> year += 1 เริ่มต้นทวีปใหม่
-    lst = {2550:[], 2551:[], 2552:[], 2553:[], 2554:[], 2555:[], 2556:[], 2557:[], 2558:[], 2559:[]} #list for keep sum(i[1]) กคือผลรวมจำนวนคน
+    files = [filename.strip("\n\r") for filename in open("dataset/file.txt")]
+
+    list_continent = ['africa', 'america', 'east asia', 'europe', 'middle east', 'oceania', 'south asia']
+    start_year, end_year = 2550, 2559
+
+    sum_data = {start_year+i: [] for i in range(end_year - start_year)} #list for keep sum(i[1]) กคือผลรวมจำนวนคน
     data_keep = {}
-    for year in lst.keys():
+    for year in sum_data.keys():
         for i in range(len(files)):
-            data_keep[list_country[i]] = plotgraph("dataset/"+files[i],year)
+            data_keep[list_continent[i]] = plotgraph("dataset/"+files[i],year)
             test_df = pd.DataFrame(data_keep)
-            lst[year].append(test_df[list_country[i]][1].sum())
-    print(lst)
+            sum_data[year].append(test_df[list_continent[i]][1].sum())
+    print(sum_data)
 main()
