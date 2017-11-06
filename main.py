@@ -8,6 +8,7 @@ import pygal
 
 def plotgraph(filename):
     """
+        plot graph
     """
     dataframe = pd.read_excel(filename)
     lst_year = dataframe.ix[0].index.values[1:].tolist()
@@ -23,6 +24,9 @@ def plotgraph(filename):
     bar_chart.render_to_file("chart/"+filename[7:-5]+".svg")
 
 def main():
+    """
+        main function
+    """
     files = [filename for filename in open("dataset/file.txt")]
     for item in files:
         plotgraph("dataset/" + item.strip("\n"))
