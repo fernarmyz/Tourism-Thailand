@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 import pandas as pd
 from pandas import ExcelWriter
 from pandas import ExcelFile
@@ -8,8 +6,8 @@ from matplotlib import style
 import pygal
 
 style.use('fivethirtyeight')
-file_loc = "1122.xlsx"
-df = pd.read_excel(file_loc, sheetname='Sheet2')
+file_loc = "dataset/eathasia.xlsx"
+df = pd.read_excel(file_loc)
 list_1 = df.ix[0][1:]
 list_2 = df.ix[1][1:]
 list_3 = df.ix[2][1:]
