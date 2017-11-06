@@ -6,7 +6,6 @@ from matplotlib import style
 import pygal
 
 style.use('fivethirtyeight')
-file_loc = "1122.xlsx"
 df = pd.read_excel(file_loc, sheetname='Sheet2')
 list_1 = df.ix[0][1:]
 list_2 = df.ix[1][1:]
@@ -23,7 +22,7 @@ list_12 = df.ix[11][1:]
 list_13 = df.ix[12][1:]
 list_14 = df.ix[13][1:]
 list_15 = df.ix[14][1:]
-
+print(len(df))
 bar_chart = pygal.Line()
 bar_chart.add('Negara Brunei Darussalam', list_1)
 bar_chart.add('Cambodia', list_2)
