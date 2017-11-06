@@ -6,10 +6,11 @@ from pandas import ExcelWriter
 from pandas import ExcelFile
 import pygal
 
+#use data by file to plot graph by using data of landmass.
+#this is a data of number people who tourism in thailand Classified by country.
+#get Number of people to plot graph.
 def plotgraph(filename):
-    """
-        plot graph
-    """
+    """plot graph"""
     dataframe = pd.read_excel(filename)
     lst_year = dataframe.ix[0].index.values[1:].tolist()
     country = dataframe['Country']
@@ -24,9 +25,7 @@ def plotgraph(filename):
     bar_chart.render_to_file("chart/"+filename[7:-5]+".svg")
 
 def main():
-    """
-        main function
-    """
+    """main function"""
     files = [filename for filename in open("dataset/file.txt")]
     for item in files:
         plotgraph("dataset/" + item.strip("\n"))
