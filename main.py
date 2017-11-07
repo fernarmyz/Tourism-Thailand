@@ -6,11 +6,17 @@ from pandas import ExcelWriter
 from pandas import ExcelFile
 import pygal
 
+def csv_to_dataframe(filename):
+    """ CSV TO DATAFRAME """
+    dataframe = pd.read_excel(filename)
+    return dataframe
+
+
 def plotgraph(filename, number):
     """
         plot graph
     """
-    dataframe = pd.read_excel(filename)
+    dataframe = csv_to_dataframe(filename)
     lst_year = dataframe.ix[0].index.values[1:].tolist()
     country = dataframe['Country']
 
