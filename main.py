@@ -45,5 +45,6 @@ def main():
             data_keep[list_continent[continent]] = plotgraph("dataset/"+files[continent],year)
             data = pd.DataFrame(data_keep)
             sum_data[year].append(data[list_continent[continent]][1].sum())
+    sum_data = pd.DataFrame(sum_data, index=list_continent)
     print(sum_data)
 main()
