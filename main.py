@@ -20,7 +20,7 @@ def plotgraph(filename, number):
     for i in range(len(dataframe)):
         bar_chart.add(country[i], dataframe.ix[i][1:])
 
-    bar_chart.render_to_file("chart/"+filename[7:-5]+".svg")
+    bar_chart.render_to_file("chart"+filename[7:-5]+".svg")
     return [filename[8:filename.find("_")],dataframe[number]]
 
 def main():
@@ -35,9 +35,9 @@ def main():
     sum_data = {start_year+i: [] for i in range(end_year - start_year)} #list for keep sum(i[1]) กคือผลรวมจำนวนคน
     data_keep = {}
     for year in sum_data.keys():
-        for i in range(len(files)):
-            data_keep[list_continent[i]] = plotgraph("dataset/"+files[i],year)
-            test_df = pd.DataFrame(data_keep)
-            sum_data[year].append(test_df[list_continent[i]][1].sum())
+        for continent in range(len(files)):
+            data_keep[list_continent[continent]] = plotgraph("dataset/"+files[continent],year)
+            data = pd.DataFrame(data_keep)
+            sum_data[year].append(data[list_continent[continent]][1].sum())
     print(sum_data)
 main()
