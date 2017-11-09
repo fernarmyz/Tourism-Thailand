@@ -57,4 +57,6 @@ def main():
             sum_data[year].append(data[list_continent[continent]][1].sum())
     sum_data = pd.DataFrame(sum_data, index=list_continent) #sum_data is sum of people from each continent in each year
     plot_sum_continent(sum_data)#sent dataframe to plot graph
+    sum_data.loc['sum_values'] = pd.Series(sum_data.loc['africa':'south asia'].sum(), index=sum_data.columns.tolist())
+    print(sum_data)
 main()
