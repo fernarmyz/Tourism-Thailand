@@ -46,7 +46,7 @@ def main():
     files = [filename.strip("\n\r") for filename in open("dataset/file.txt")]
 
     list_continent = ['africa', 'america', 'east asia', 'europe', 'middle east', 'oceania', 'south asia']
-    start_year, end_year = 2550, 2559
+    start_year, end_year = 2550, 2560
 
     sum_data = {start_year+i: [] for i in range(end_year - start_year)} #list for keep sum(i[1]) กคือผลรวมจำนวนคน
     data_keep = {}
