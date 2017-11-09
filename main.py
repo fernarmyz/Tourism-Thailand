@@ -29,6 +29,16 @@ def plotgraph(filename, number):
     bar_chart.render_to_file("chart"+filename[7:-5]+".svg")
     return [filename[8:filename.find("_")],dataframe[number]]
 
+def plot_sum_continent(dataframe):
+    """ Plot graph of sum continent """
+    continents = dataframe.index.tolist()
+    bar_chart = pygal.Line()
+    bar_chart.title = "Peple for each continent"
+    bar_chart.x_labels = map(str, dataframe.columns.tolist())
+    for continent in continents:
+        bar_chart.add(continent, dataframe.loc[continent].tolist())
+    bar_chart.render_to_file("chart/person_continents.svg")
+
 def main():
     """
         main function
@@ -46,6 +56,6 @@ def main():
             data = pd.DataFrame(data_keep)
             sum_data[year].append(data[list_continent[continent]][1].sum())
     sum_data = pd.DataFrame(sum_data, index=list_continent) #sum_data is sum of people from each continent in each year
-    print(sum_data) # Print dataframe
-    # print(sum_data.loc['africa']) #From this fucntions you can select data by row
+    #print(sum_data) # Print dataframe
+    plot_sum_continent(sum_data)#From this fucntions you can select data by row
 main()
