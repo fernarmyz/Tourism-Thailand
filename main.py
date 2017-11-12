@@ -31,11 +31,12 @@ def plotgraph(filename, number):
 def plot_sum_continent(dataframe):
     """ Plot graph of sum continent """
     continents = dataframe.index.tolist()
-    bar_chart = pygal.Bar(title=u'สถิตินักท่องเที่ยวชาวต่างชาติที่เดินทางเข้าประเทศไทยในปี พ.ศ. 2550 – 2559', y_title='จำนวนนักท่องเที่ยว(คน)', x_title='ปีพ.ศ.')
+    bar_chart = pygal.Bar(title=u'สถิตินักท่องเที่ยวชาวต่างชาติทุกทวีปที่เดินทางเข้าประเทศไทยในปี พ.ศ. 2550 – 2559', y_title='จำนวนนักท่องเที่ยว(คน)', x_title='ปีพ.ศ.')
     bar_chart.x_labels = map(str, dataframe.columns.tolist())
     for continent in continents:
         bar_chart.add(continent, dataframe.loc[continent].tolist())
     bar_chart.render_to_file("chart/person_continents.svg")
+
 
 def main():
     """
@@ -56,5 +57,10 @@ def main():
     sum_data = pd.DataFrame(sum_data, index=list_continent) #sum_data is sum of people from each continent in each year
     plot_sum_continent(sum_data)#sent dataframe to plot graph
     sum_data.loc['sum_values'] = pd.Series(sum_data.loc['africa':'south asia'].sum(), index=sum_data.columns.tolist())
-    print(sum_data)
+    bar_chart = pygal.Line(title=u'สถิตินักท่องเที่ยวชาวต่างชาติที่เดินทางเข้าประเทศไทยในปี พ.ศ. 2550 – 2559', y_title='จำนวนนักท่องเที่ยว(คน)', x_title='ปีพ.ศ.')
+    bar_chart.add("the tourist", sum_data.loc['sum_values'])
+    lst_year = []
+    sum_data2 = {lst_year.append(i): [] for i in sum_data.keys()}
+    bar_chart.x_labels = map(str, lst_year)
+    bar_chart.render_to_file("Person_of_year"+".svg")
 main()
