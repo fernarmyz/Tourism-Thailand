@@ -12,7 +12,7 @@ def csv_to_dataframe(filename):
     return dataframe
 
 
-def plotgraph(data, year):
+def plotgraph(data, year, chart_title, x_axis_title, y_axis_title):
     """
         plot graph
     """
@@ -20,10 +20,11 @@ def plotgraph(data, year):
     year_list = dataframe.loc[0].index.values[1:].tolist()
     country = dataframe[dataframe.columns[0]]
 
-    bar_chart = pygal.Line(title=u'Statistics from '+ data[8:-13] + " to Thailand in 2550 - 2559.", y_title='จำนวนนักท่องเที่ยว(คน)', x_title='ปีพ.ศ.')
+    bar_chart = pygal.Line(title=chart_title, x_title=x_axis_title, y_title=y_axis_title)
+    # bar_chart = pygal.Line(title=u'Statistics from '+ data[8:-13] + " to Thailand in 2550 - 2559.", y_title='จำนวนนักท่องเที่ยว(คน)', x_title='ปีพ.ศ.')
     bar_chart.x_labels = map(str, year_list)
     for i in range(len(dataframe)):
-        bar_chart.add(str(country[i]) , dataframe.loc[i][1:])
+        bar_chart.add(str(country[i]).strip() , dataframe.loc[i][1:])
 
     bar_chart.render_to_file("chart"+data[7:-5]+".svg")
     return [data[8:data.find("_")],dataframe[year]]
@@ -42,7 +43,7 @@ def main():
     """
         main function
     """
-    files = [filename.strip("\n\r") for filename in open("dataset/file.txt")]
+    files = ["dataset/"+filename.strip("\n\r") for filename in open("dataset/file.txt")]
 
     list_continent = ['africa', 'america', 'east asia', 'europe', 'middle east', 'oceania', 'south asia']
     start_year, end_year = 2550, 2560
@@ -51,7 +52,13 @@ def main():
     data_keep = {}
     for year in sum_data.keys():
         for continent in range(len(files)):
-            data_keep[list_continent[continent]] = plotgraph("dataset/"+files[continent],year)
+
+            dataframe = csv_to_dataframe(files[continent])
+            title = 'Statistics from '+ list_continent[continent]+ " to Thailand in 2550 - 2559."
+            y_title='จำนวนนักท่องเที่ยว(คน)'
+            x_title='ปีพ.ศ.'
+            
+            data_keep[list_continent[continent]] = plotgraph(files[continent],year, title, x_title, y_title)
             data = pd.DataFrame(data_keep)
             sum_data[year].append(data[list_continent[continent]][1].sum())
     sum_data = pd.DataFrame(sum_data, index=list_continent) #sum_data is sum of people from each continent in each year
@@ -59,14 +66,13 @@ def main():
     sum_data.loc['sum_values'] = pd.Series(sum_data.loc['africa':'south asia'].sum(), index=sum_data.columns.tolist())
     bar_chart = pygal.Line(title=u'สถิตินักท่องเที่ยวชาวต่างชาติที่เดินทางเข้าประเทศไทยในปี พ.ศ. 2550 – 2559', y_title='จำนวนนักท่องเที่ยว(คน)', x_title='ปีพ.ศ.')
     bar_chart.add("the tourist", sum_data.loc['sum_values'])
-    lst_year = []
-    sum_data2 = {lst_year.append(i): [] for i in sum_data.keys()}
+    lst_year = [i for i in sum_data.keys()]
     bar_chart.x_labels = map(str, lst_year)
     bar_chart.render_to_file("Person_of_year"+".svg")
-# main()
+main()
 
 def test():
     files = ["dataset/"+filename.strip("\n\r") for filename in open("dataset/file.txt")]
     df = csv_to_dataframe(files[0])
     print(df[2550])
-test()
+# test()
