@@ -12,21 +12,21 @@ def csv_to_dataframe(filename):
     return dataframe
 
 
-def plotgraph(filename, number):
+def plotgraph(data, year):
     """
         plot graph
     """
-    dataframe = csv_to_dataframe(filename)
-    lst_year = dataframe.ix[0].index.values[1:].tolist()
-    country = dataframe['Country']
+    dataframe = csv_to_dataframe(data)
+    year_list = dataframe.loc[0].index.values[1:].tolist()
+    country = dataframe[dataframe.columns[0]]
 
-    bar_chart = pygal.Line(title=u'Statistics from '+ filename[8:-13] + " to Thailand in 2550 - 2559.", y_title='จำนวนนักท่องเที่ยว(คน)', x_title='ปีพ.ศ.')
-    bar_chart.x_labels = map(str, lst_year)
+    bar_chart = pygal.Line(title=u'Statistics from '+ data[8:-13] + " to Thailand in 2550 - 2559.", y_title='จำนวนนักท่องเที่ยว(คน)', x_title='ปีพ.ศ.')
+    bar_chart.x_labels = map(str, year_list)
     for i in range(len(dataframe)):
-        bar_chart.add(str(country[i]) , dataframe.ix[i][1:])
+        bar_chart.add(str(country[i]) , dataframe.loc[i][1:])
 
-    bar_chart.render_to_file("chart"+filename[7:-5]+".svg")
-    return [filename[8:filename.find("_")],dataframe[number]]
+    bar_chart.render_to_file("chart"+data[7:-5]+".svg")
+    return [data[8:data.find("_")],dataframe[year]]
 
 def plot_sum_continent(dataframe):
     """ Plot graph of sum continent """
@@ -63,4 +63,10 @@ def main():
     sum_data2 = {lst_year.append(i): [] for i in sum_data.keys()}
     bar_chart.x_labels = map(str, lst_year)
     bar_chart.render_to_file("Person_of_year"+".svg")
-main()
+# main()
+
+def test():
+    files = ["dataset/"+filename.strip("\n\r") for filename in open("dataset/file.txt")]
+    df = csv_to_dataframe(files[0])
+    print(df[2550])
+test()
