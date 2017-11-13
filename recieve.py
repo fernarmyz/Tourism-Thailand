@@ -5,8 +5,7 @@ import pygal
 
 dataframe = pd.read_excel("dataset/receive.xlsx")
 lst_year = dataframe.ix[0].index.values[1:].tolist()
-bar_chart = pygal.Line()
-bar_chart.title = 'รายได้จากธุรกิจการท่องเที่ยวในปี พ.ศ.2550 - 2559'
+bar_chart = pygal.Bar(title=u'รายได้ของประเทศไทยที่ได้รับจากธุรกิจการท่องเที่ยวในปี พ.ศ. 2550 – 2559', y_title='รายได้(ล้านบาท)', x_title='ปีพ.ศ.')
 bar_chart.x_labels = map(str, lst_year)
 country = dataframe['Country']
 

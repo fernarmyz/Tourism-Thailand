@@ -20,11 +20,10 @@ def plotgraph(filename, number):
     lst_year = dataframe.ix[0].index.values[1:].tolist()
     country = dataframe['Country']
 
-    bar_chart = pygal.Line()
-    bar_chart.title = filename[8:-13].title()
+    bar_chart = pygal.Line(title=u'Statistics from '+ filename[8:-13] + " to Thailand in 2550 - 2559.", y_title='จำนวนนักท่องเที่ยว(คน)', x_title='ปีพ.ศ.')
     bar_chart.x_labels = map(str, lst_year)
     for i in range(len(dataframe)):
-        bar_chart.add(country[i], dataframe.ix[i][1:])
+        bar_chart.add(str(country[i]) , dataframe.ix[i][1:])
 
     bar_chart.render_to_file("chart"+filename[7:-5]+".svg")
     return [filename[8:filename.find("_")],dataframe[number]]
@@ -32,12 +31,12 @@ def plotgraph(filename, number):
 def plot_sum_continent(dataframe):
     """ Plot graph of sum continent """
     continents = dataframe.index.tolist()
-    bar_chart = pygal.Line()
-    bar_chart.title = "Peple for each continent"
+    bar_chart = pygal.Bar(title=u'สถิตินักท่องเที่ยวชาวต่างชาติทุกทวีปที่เดินทางเข้าประเทศไทยในปี พ.ศ. 2550 – 2559', y_title='จำนวนนักท่องเที่ยว(คน)', x_title='ปีพ.ศ.')
     bar_chart.x_labels = map(str, dataframe.columns.tolist())
     for continent in continents:
         bar_chart.add(continent, dataframe.loc[continent].tolist())
     bar_chart.render_to_file("chart/person_continents.svg")
+
 
 def main():
     """
@@ -56,6 +55,12 @@ def main():
             data = pd.DataFrame(data_keep)
             sum_data[year].append(data[list_continent[continent]][1].sum())
     sum_data = pd.DataFrame(sum_data, index=list_continent) #sum_data is sum of people from each continent in each year
-    #print(sum_data) # Print dataframe
-    plot_sum_continent(sum_data)#From this fucntions you can select data by row
+    plot_sum_continent(sum_data)#sent dataframe to plot graph
+    sum_data.loc['sum_values'] = pd.Series(sum_data.loc['africa':'south asia'].sum(), index=sum_data.columns.tolist())
+    bar_chart = pygal.Line(title=u'สถิตินักท่องเที่ยวชาวต่างชาติที่เดินทางเข้าประเทศไทยในปี พ.ศ. 2550 – 2559', y_title='จำนวนนักท่องเที่ยว(คน)', x_title='ปีพ.ศ.')
+    bar_chart.add("the tourist", sum_data.loc['sum_values'])
+    lst_year = []
+    sum_data2 = {lst_year.append(i): [] for i in sum_data.keys()}
+    bar_chart.x_labels = map(str, lst_year)
+    bar_chart.render_to_file("Person_of_year"+".svg")
 main()
