@@ -33,7 +33,7 @@ def main():
     """
         main function
     """
-    files = ["dataset/"+filename.strip("\n\r") for filename in open("dataset/file.txt")]
+    files = ["dataset/continents/"+filename.strip("\n\r") for filename in open("dataset/continents/file.txt")]
     list_continent = ['africa', 'america', 'east asia', 'europe', 'middle east', 'oceania', 'south asia']
     start_year, end_year = 2550, 2560
     list_year = [i for i in range(start_year, end_year)]
