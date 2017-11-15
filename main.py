@@ -16,14 +16,14 @@ def csv_to_dataframe(filename):
     return dataframe
 
 
-def plotgraph(data, name, chart_title, graph_type):
+def plotgraph(data, name, chart_title, graph_type, x_axis_title, y_axis_title):
     """
         ::: Plotgrap Function :::
             plot graph from dataframe to *.svg file
         Parameter
             data = dataframe in format
                  ---------------------------------------------------
-                | data_index |    2550    |    ....    |    2550    |
+                | data_index |    2550    |    ....    |    2559    |
                 |  some_text | <numberic> |    ....    | <numberic> |
                 |    ....    |    ....    |    ....    |    ....    |   
                 |  some_text | <numberic> | <numberic> | <numberic> |
@@ -32,8 +32,6 @@ def plotgraph(data, name, chart_title, graph_type):
             chart_title = title of that chart
             graph_type = type of plot include line, bar, pie
     """
-    y_axis_title='จำนวนนักท่องเที่ยว(คน)'
-    x_axis_title='ปีพ.ศ.'
     dataframe = data
     year_list = dataframe.loc[0].index.values[1:].tolist()
     country = dataframe[dataframe.columns[0]]
@@ -62,6 +60,8 @@ def main():
     """ Plotgraph of continents """
     files = ["dataset/continents/"+filename.strip("\n\r") for filename in open("dataset/continents/file.txt")]
     list_continent = ['africa', 'america', 'east asia', 'europe', 'middle east', 'oceania', 'south asia']
+    y_title='จำนวนนักท่องเที่ยว(คน)'
+    x_title='ปีพ.ศ.'
     start_year, end_year = 2550, 2560
     list_year = [i for i in range(start_year, end_year)]
     continent_values = {}
@@ -70,25 +70,32 @@ def main():
         name = list_continent[continent]
         title = 'Statistics from '+ list_continent[continent]+ " to Thailand in 2550 - 2559."
         continent_values[list_continent[continent]] = dataframe.sum().tolist()[1:]
-        plotgraph(dataframe,name,title, "line")
+        plotgraph(dataframe,name,title, "line", x_title, y_title)
 
     """ Plotgraph of tourist each continents per year"""
     data = pd.DataFrame(continent_values, index = list_year)
     tourist_each_continent = data.transpose().reset_index()
-    plotgraph(tourist_each_continent,"tourist_each_continent", "สถิตินักท่องเที่ยวแต่ละทวีปที่เดินทางเข้าประเทศไทยในปี พ.ศ. 2550 – 2559", "line")
+    plotgraph(tourist_each_continent,"tourist_each_continent", "สถิตินักท่องเที่ยวแต่ละทวีปที่เดินทางเข้าประเทศไทยในปี พ.ศ. 2550 – 2559", "line", x_title, y_title)
 
     """ Plotgraph of all tourist per years """
     tourist_per_year = data.transpose().sum().reset_index().set_index('index').transpose()
     tourist_per_year.index = ['จำนวนนักท่องเที่ยว']
     tourist_per_year = tourist_per_year.reset_index()
-    plotgraph(tourist_per_year,"tourist_per_year", "สถิตินักท่องเที่ยวชาวต่างชาติที่เดินทางเข้าประเทศไทยในปี พ.ศ. 2550 – 2559", "line")
+    plotgraph(tourist_per_year,"tourist_per_year", "สถิตินักท่องเที่ยวชาวต่างชาติที่เดินทางเข้าประเทศไทยในปี พ.ศ. 2550 – 2559", "line", x_title, y_title)
 
     """ Plotgraph tourist info """
     files = [filename.strip("\n\r") for filename in open("dataset/tourist_info/file.txt")]
-    for file_info in files:
-        dataframe = csv_to_dataframe("dataset/tourist_info/"+file_info)
-        name = file_info[:file_info.find(".")]
+    for i in range(len(files)):
+        file_name = files[i]
+        dataframe = csv_to_dataframe("dataset/tourist_info/"+file_name)
+        name = file_name[:file_name.find(".")]
         title = 'Statistics about '+ name + " to Thailand in 2550 - 2559."
-        plotgraph(dataframe,name,title, "bar")
+        y_title='จำนวนนักท่องเที่ยว(คน)'
+        x_title='ปีพ.ศ.'
+        if i == 4:
+            y_title='จำนวนเงิน(บาท)'
+        if i == 5:
+            y_title='จำนวนเงิน(ล้านบาท)'
+        plotgraph(dataframe,name,title, "bar",x_title, y_title)
 main()
 
