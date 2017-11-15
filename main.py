@@ -58,5 +58,13 @@ def main():
     tourist_per_year = tourist_per_year.reset_index()
     plotgraph(tourist_per_year,"tourist_per_year", "สถิตินักท่องเที่ยวชาวต่างชาติที่เดินทางเข้าประเทศไทยในปี พ.ศ. 2550 – 2559")
 
+    """ Plotgraph tourist info """
+    files = ["dataset/continents/"+filename.strip("\n\r") for filename in open("dataset/continents/file.txt")]
+    for file_info in files:
+        dataframe = csv_to_dataframe(file_info)
+        name = file_info[file_info.find(".")]
+        title = 'Statistics from '+ list_continent[continent]+ " to Thailand in 2550 - 2559."
+        continent_values[list_continent[continent]] = dataframe.sum().tolist()[1:]
+        plotgraph(dataframe,name,title)
 main()
 
