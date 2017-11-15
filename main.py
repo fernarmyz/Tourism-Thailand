@@ -12,7 +12,7 @@ def csv_to_dataframe(filename):
     return dataframe
 
 
-def plotgraph(data, name, chart_title):
+def plotgraph(data, name, chart_title, graph_type):
     """
         plot graph
     """
@@ -22,7 +22,15 @@ def plotgraph(data, name, chart_title):
     year_list = dataframe.loc[0].index.values[1:].tolist()
     country = dataframe[dataframe.columns[0]]
 
-    bar_chart = pygal.Line(title=chart_title, x_title=x_axis_title, y_title=y_axis_title)
+    if graph_type == "line":
+        bar_chart = pygal.Line(x_title=x_axis_title, y_title=y_axis_title)
+    elif graph_type == "bar":
+        bar_chart = pygal.Bar()
+    elif graph_type == "pie":
+        bar_chart == pygal.Pie()
+
+    bar_chart.title = chart_title
+
     bar_chart.x_labels = map(str, year_list)
     for i in range(len(dataframe)):
         bar_chart.add(str(country[i]).strip() , dataframe.loc[i][1:].astype(float))
@@ -45,18 +53,18 @@ def main():
         name = list_continent[continent]
         title = 'Statistics from '+ list_continent[continent]+ " to Thailand in 2550 - 2559."
         continent_values[list_continent[continent]] = dataframe.sum().tolist()[1:]
-        plotgraph(dataframe,name,title)
+        plotgraph(dataframe,name,title, "line")
 
     """ Plotgraph of tourist each continents per year"""
     data = pd.DataFrame(continent_values, index = list_year)
     tourist_each_continent = data.transpose().reset_index()
-    plotgraph(tourist_each_continent,"tourist_each_continent", "สถิตินักท่องเที่ยวแต่ละทวีปที่เดินทางเข้าประเทศไทยในปี พ.ศ. 2550 – 2559")
+    plotgraph(tourist_each_continent,"tourist_each_continent", "สถิตินักท่องเที่ยวแต่ละทวีปที่เดินทางเข้าประเทศไทยในปี พ.ศ. 2550 – 2559", "line")
 
     """ Plotgraph of all tourist per years """
     tourist_per_year = data.transpose().sum().reset_index().set_index('index').transpose()
     tourist_per_year.index = ['จำนวนนักท่องเที่ยว']
     tourist_per_year = tourist_per_year.reset_index()
-    plotgraph(tourist_per_year,"tourist_per_year", "สถิตินักท่องเที่ยวชาวต่างชาติที่เดินทางเข้าประเทศไทยในปี พ.ศ. 2550 – 2559")
+    plotgraph(tourist_per_year,"tourist_per_year", "สถิตินักท่องเที่ยวชาวต่างชาติที่เดินทางเข้าประเทศไทยในปี พ.ศ. 2550 – 2559", "line")
 
     """ Plotgraph tourist info """
     files = [filename.strip("\n\r") for filename in open("dataset/tourist_info/file.txt")]
@@ -64,7 +72,7 @@ def main():
         dataframe = csv_to_dataframe("dataset/tourist_info/"+file_info)
         name = file_info[:file_info.find(".")]
         title = 'Statistics about '+ name + " to Thailand in 2550 - 2559."
-        plotgraph(dataframe,name,title)
+        plotgraph(dataframe,name,title, "bar")
         # print(dataframe[dataframe.columns[0]])
 main()
 
