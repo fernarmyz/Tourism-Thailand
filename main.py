@@ -7,7 +7,11 @@ from pandas import ExcelFile
 import pygal
 
 def csv_to_dataframe(filename):
-    """ CSV TO DATAFRAME """
+    """
+        ::: CSV to Dataframe Function :::
+    Parameter
+        filename = read excel file and return to dataframe
+    """
     dataframe = pd.read_excel(filename)
     return dataframe
 
@@ -17,7 +21,13 @@ def plotgraph(data, name, chart_title, graph_type):
         ::: Plotgrap Function :::
             plot graph from dataframe to *.svg file
         Parameter
-            data = dataframe
+            data = dataframe in format
+                 ---------------------------------------------------
+                | data_index |    2550    |    ....    |    2550    |
+                |  some_text | <numberic> |    ....    | <numberic> |
+                |    ....    |    ....    |    ....    |    ....    |   
+                |  some_text | <numberic> | <numberic> | <numberic> |
+                 ---------------------------------------------------
             name = name of export svg ex. europe.svg
             chart_title = title of that chart
             graph_type = type of plot include line, bar, pie
@@ -28,6 +38,7 @@ def plotgraph(data, name, chart_title, graph_type):
     year_list = dataframe.loc[0].index.values[1:].tolist()
     country = dataframe[dataframe.columns[0]]
 
+    # checking type of graph
     if graph_type == "line":
         chart = pygal.Line(x_title=x_axis_title, y_title=y_axis_title)
     elif graph_type == "bar":
