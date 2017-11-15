@@ -14,7 +14,13 @@ def csv_to_dataframe(filename):
 
 def plotgraph(data, name, chart_title, graph_type):
     """
-        plot graph
+        ::: Plotgrap Function :::
+            plot graph from dataframe to *.svg file
+        Parameter
+            data = dataframe
+            name = name of export svg ex. europe.svg
+            chart_title = title of that chart
+            graph_type = type of plot include line, bar, pie
     """
     y_axis_title='จำนวนนักท่องเที่ยว(คน)'
     x_axis_title='ปีพ.ศ.'
@@ -73,6 +79,5 @@ def main():
         name = file_info[:file_info.find(".")]
         title = 'Statistics about '+ name + " to Thailand in 2550 - 2559."
         plotgraph(dataframe,name,title, "bar")
-        # print(dataframe[dataframe.columns[0]])
 main()
 
