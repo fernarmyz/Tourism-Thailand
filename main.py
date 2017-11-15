@@ -12,7 +12,7 @@ def csv_to_dataframe(filename):
     return dataframe
 
 
-def plotgraph(data,name , chart_title):
+def plotgraph(data, name, chart_title):
     """
         plot graph
     """
@@ -25,7 +25,7 @@ def plotgraph(data,name , chart_title):
     bar_chart = pygal.Line(title=chart_title, x_title=x_axis_title, y_title=y_axis_title)
     bar_chart.x_labels = map(str, year_list)
     for i in range(len(dataframe)):
-        bar_chart.add(str(country[i]).strip() , dataframe.loc[i][1:])
+        bar_chart.add(str(country[i]).strip() , dataframe.loc[i][1:].astype(float))
 
     bar_chart.render_to_file("chart/"+name+".svg")
 
@@ -59,12 +59,12 @@ def main():
     plotgraph(tourist_per_year,"tourist_per_year", "สถิตินักท่องเที่ยวชาวต่างชาติที่เดินทางเข้าประเทศไทยในปี พ.ศ. 2550 – 2559")
 
     """ Plotgraph tourist info """
-    files = ["dataset/continents/"+filename.strip("\n\r") for filename in open("dataset/continents/file.txt")]
+    files = [filename.strip("\n\r") for filename in open("dataset/tourist_info/file.txt")]
     for file_info in files:
-        dataframe = csv_to_dataframe(file_info)
-        name = file_info[file_info.find(".")]
-        title = 'Statistics from '+ list_continent[continent]+ " to Thailand in 2550 - 2559."
-        continent_values[list_continent[continent]] = dataframe.sum().tolist()[1:]
+        dataframe = csv_to_dataframe("dataset/tourist_info/"+file_info)
+        name = file_info[:file_info.find(".")]
+        title = 'Statistics about '+ name + " to Thailand in 2550 - 2559."
         plotgraph(dataframe,name,title)
+        # print(dataframe[dataframe.columns[0]])
 main()
 
