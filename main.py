@@ -23,19 +23,19 @@ def plotgraph(data, name, chart_title, graph_type):
     country = dataframe[dataframe.columns[0]]
 
     if graph_type == "line":
-        bar_chart = pygal.Line(x_title=x_axis_title, y_title=y_axis_title)
+        chart = pygal.Line(x_title=x_axis_title, y_title=y_axis_title)
     elif graph_type == "bar":
-        bar_chart = pygal.Bar()
+        chart = pygal.Bar()
     elif graph_type == "pie":
-        bar_chart == pygal.Pie()
+        chart == pygal.Pie()
 
-    bar_chart.title = chart_title
+    chart.title = chart_title
 
-    bar_chart.x_labels = map(str, year_list)
+    chart.x_labels = map(str, year_list)
     for i in range(len(dataframe)):
-        bar_chart.add(str(country[i]).strip() , dataframe.loc[i][1:].astype(float))
+        chart.add(str(country[i]).strip() , dataframe.loc[i][1:].astype(float))
 
-    bar_chart.render_to_file("chart/"+name+".svg")
+    chart.render_to_file("chart/"+name+".svg")
 
 def main():
     """
