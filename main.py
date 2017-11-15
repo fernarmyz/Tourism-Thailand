@@ -33,6 +33,8 @@ def main():
     """
         main function
     """
+
+    """ Plotgraph of continents """
     files = ["dataset/continents/"+filename.strip("\n\r") for filename in open("dataset/continents/file.txt")]
     list_continent = ['africa', 'america', 'east asia', 'europe', 'middle east', 'oceania', 'south asia']
     start_year, end_year = 2550, 2560
@@ -45,10 +47,12 @@ def main():
         continent_values[list_continent[continent]] = dataframe.sum().tolist()[1:]
         plotgraph(dataframe,name,title)
 
+    """ Plotgraph of tourist each continents per year"""
     data = pd.DataFrame(continent_values, index = list_year)
     tourist_each_continent = data.transpose().reset_index()
     plotgraph(tourist_each_continent,"tourist_each_continent", "สถิตินักท่องเที่ยวแต่ละทวีปที่เดินทางเข้าประเทศไทยในปี พ.ศ. 2550 – 2559")
 
+    """ Plotgraph of all tourist per years """
     tourist_per_year = data.transpose().sum().reset_index().set_index('index').transpose()
     tourist_per_year.index = ['จำนวนนักท่องเที่ยว']
     tourist_per_year = tourist_per_year.reset_index()
